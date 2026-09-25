@@ -1,0 +1,26 @@
+# ==============================
+# Backend / API
+# ==============================
+
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+sqlalchemy
+
+
+# ==============================
+# AI / LLM
+# ==============================
+
+openai
+faiss-cpu
+
+
+
+# ==============================
+# Data / Utilities
+# ==============================
+
+python-dotenv
+httpx

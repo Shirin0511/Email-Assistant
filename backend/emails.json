@@ -1,0 +1,546 @@
+[
+  {
+    "id": "email_001",
+    "thread_id": "thread_001",
+    "sender_name": "John Smith",
+    "sender_email": "john.smith@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Project Proposal - Revised Version",
+    "body": "Hi Shirin,\n\nCould you please send me the revised version of the project proposal by Friday? Please make sure the resource estimates are updated as discussed in yesterday's meeting.\n\nThanks,\nJohn",
+    "timestamp": "2026-09-18T10:30:00",
+    "folder": "inbox",
+    "is_read": false
+  },
+  {
+    "id": "email_002",
+    "thread_id": "thread_001",
+    "sender_name": "Shirin Gupta",
+    "sender_email": "shirin@example.com",
+    "recipients": [
+      {
+        "name": "John Smith",
+        "email": "john.smith@northstar.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Re: Project Proposal - Revised Version",
+    "body": "Hi John,\n\nSure, I'll update the resource estimates and send the revised proposal by Friday.\n\nRegards,\nShirin",
+    "timestamp": "2026-09-18T11:05:00",
+    "folder": "sent",
+    "is_read": true
+  },
+  {
+    "id": "email_003",
+    "thread_id": "thread_001",
+    "sender_name": "John Smith",
+    "sender_email": "john.smith@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Re: Project Proposal - Revised Version",
+    "body": "Thanks, Shirin. One more thing - please include the updated delivery timeline in the final version.",
+    "timestamp": "2026-09-18T15:20:00",
+    "folder": "inbox",
+    "is_read": false
+  },
+  {
+    "id": "email_004",
+    "thread_id": "thread_002",
+    "sender_name": "Sarah Williams",
+    "sender_email": "sarah.williams@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [
+      "michael.lee@northstar.com"
+    ],
+    "subject": "Client Meeting - Monday",
+    "body": "Hi Shirin,\n\nJust confirming that the client meeting is scheduled for Monday at 11:00 AM. Please prepare the latest project status and key risks before the meeting.\n\nBest,\nSarah",
+    "timestamp": "2026-09-18T09:15:00",
+    "folder": "inbox",
+    "is_read": true
+  },
+  {
+    "id": "email_005",
+    "thread_id": "thread_003",
+    "sender_name": "Michael Lee",
+    "sender_email": "michael.lee@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Resource Allocation Update",
+    "body": "Hi Shirin,\n\nCan you review the resource allocation sheet and let me know if the AI team has enough capacity for the October projects?\n\nThanks,\nMichael",
+    "timestamp": "2026-09-17T14:40:00",
+    "folder": "inbox",
+    "is_read": false
+  },
+  {
+    "id": "email_006",
+    "thread_id": "thread_004",
+    "sender_name": "Priya Nair",
+    "sender_email": "priya.nair@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Timesheet Reminder",
+    "body": "Hi Shirin,\n\nThis is a reminder to submit your timesheet for this week before 6 PM today.\n\nThanks,\nPriya",
+    "timestamp": "2026-09-19T09:00:00",
+    "folder": "inbox",
+    "is_read": false
+  },
+  {
+    "id": "email_007",
+    "thread_id": "thread_005",
+    "sender_name": "Alex Brown",
+    "sender_email": "alex.brown@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "AI Prototype Feedback",
+    "body": "Hi Shirin,\n\nI had a look at the AI prototype. The document search works well. Could you add a small section showing the source documents used for each answer?\n\nRegards,\nAlex",
+    "timestamp": "2026-09-16T16:10:00",
+    "folder": "inbox",
+    "is_read": true
+  },
+  {
+    "id": "email_008",
+    "thread_id": "thread_006",
+    "sender_name": "Shirin Gupta",
+    "sender_email": "shirin@example.com",
+    "recipients": [
+      {
+        "name": "Alex Brown",
+        "email": "alex.brown@northstar.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Re: AI Prototype Feedback",
+    "body": "Hi Alex,\n\nThanks for the feedback. I'll add source citations to the prototype and share an updated version once it's ready.\n\nBest,\nShirin",
+    "timestamp": "2026-09-17T10:25:00",
+    "folder": "sent",
+    "is_read": true
+  },
+  {
+    "id": "email_009",
+    "thread_id": "thread_007",
+    "sender_name": "Rachel Green",
+    "sender_email": "rachel.green@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Training Session - Generative AI",
+    "body": "Hi everyone,\n\nThe Generative AI training session has been moved to Wednesday at 3 PM. The session will cover prompt engineering, RAG, and tool calling.\n\nRegards,\nRachel",
+    "timestamp": "2026-09-17T12:00:00",
+    "folder": "inbox",
+    "is_read": true
+  },
+  {
+    "id": "email_010",
+    "thread_id": "thread_008",
+    "sender_name": "Finance Team",
+    "sender_email": "finance@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "September Expense Report",
+    "body": "Hi Shirin,\n\nPlease submit your September expense report along with the supporting receipts by September 25.\n\nRegards,\nFinance Team",
+    "timestamp": "2026-09-18T08:30:00",
+    "folder": "inbox",
+    "is_read": false
+  },
+  {
+    "id": "email_011",
+    "thread_id": "thread_009",
+    "sender_name": "Shirin Gupta",
+    "sender_email": "shirin@example.com",
+    "recipients": [
+      {
+        "name": "Finance Team",
+        "email": "finance@northstar.com"
+      }
+    ],
+    "cc": [],
+    "subject": "September Expense Report",
+    "body": "Hi,\n\nI have prepared the September expense report and will submit the receipts shortly.\n\nRegards,\nShirin",
+    "timestamp": "2026-09-18T13:45:00",
+    "folder": "drafts",
+    "is_read": true
+  },
+  {
+    "id": "email_012",
+    "thread_id": "thread_010",
+    "sender_name": "David Miller",
+    "sender_email": "david.miller@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Quarterly Review Preparation",
+    "body": "Hi Shirin,\n\nThe quarterly review is coming up next week. Please prepare a short summary of your current projects and any major blockers.\n\nThanks,\nDavid",
+    "timestamp": "2026-09-16T11:30:00",
+    "folder": "inbox",
+    "is_read": true
+  },
+  {
+    "id": "email_013",
+    "thread_id": "thread_011",
+    "sender_name": "Emily Carter",
+    "sender_email": "emily.carter@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "New Employee Benefits",
+    "body": "Hi Shirin,\n\nWe have published the updated employee benefits guide. The document includes information about leave, insurance, and reimbursement policies.\n\nRegards,\nEmily",
+    "timestamp": "2026-09-15T09:20:00",
+    "folder": "inbox",
+    "is_read": true
+  },
+  {
+    "id": "email_014",
+    "thread_id": "thread_012",
+    "sender_name": "Tech Newsletter",
+    "sender_email": "newsletter@techweekly.example",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "This Week in AI - 10 Things to Know",
+    "body": "This week's newsletter covers recent developments in large language models, AI agents, multimodal systems, and enterprise AI applications.",
+    "timestamp": "2026-09-14T07:00:00",
+    "folder": "inbox",
+    "is_read": true
+  },
+  {
+    "id": "email_015",
+    "thread_id": "thread_013",
+    "sender_name": "Tom Wilson",
+    "sender_email": "tom.wilson@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Database Migration Discussion",
+    "body": "Hi Shirin,\n\nCan we have a quick discussion about the SQLite to PostgreSQL migration? I am available tomorrow between 2 PM and 4 PM.\n\nTom",
+    "timestamp": "2026-09-18T16:00:00",
+    "folder": "inbox",
+    "is_read": false
+  },
+  {
+    "id": "email_016",
+    "thread_id": "thread_013",
+    "sender_name": "Shirin Gupta",
+    "sender_email": "shirin@example.com",
+    "recipients": [
+      {
+        "name": "Tom Wilson",
+        "email": "tom.wilson@northstar.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Re: Database Migration Discussion",
+    "body": "Hi Tom,\n\nTomorrow at 3 PM works for me. I'll send a calendar invite.\n\nThanks,\nShirin",
+    "timestamp": "2026-09-18T16:30:00",
+    "folder": "sent",
+    "is_read": true
+  },
+  {
+    "id": "email_017",
+    "thread_id": "thread_014",
+    "sender_name": "Recruitment Team",
+    "sender_email": "careers@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Interview Process Update",
+    "body": "Hi Shirin,\n\nYour technical interview has been scheduled for Tuesday at 2 PM. Please join using the meeting link in the calendar invitation and keep a copy of your latest CV available.\n\nRegards,\nRecruitment Team",
+    "timestamp": "2026-09-18T17:15:00",
+    "folder": "inbox",
+    "is_read": false
+  },
+  {
+    "id": "email_018",
+    "thread_id": "thread_015",
+    "sender_name": "Marketing Team",
+    "sender_email": "marketing@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Internal Hackathon Registration",
+    "body": "Registration for the annual internal hackathon is now open. Sign up before September 30 if you would like to participate.",
+    "timestamp": "2026-09-13T10:00:00",
+    "folder": "inbox",
+    "is_read": true
+  },
+  {
+    "id": "email_019",
+    "thread_id": "thread_016",
+    "sender_name": "John Smith",
+    "sender_email": "john.smith@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Project Risk Register",
+    "body": "Hi Shirin,\n\nCould you review the latest risk register before our project review? I am particularly interested in the high-impact schedule and resource risks.\n\nThanks,\nJohn",
+    "timestamp": "2026-09-17T09:40:00",
+    "folder": "inbox",
+    "is_read": true
+  },
+  {
+    "id": "email_020",
+    "thread_id": "thread_016",
+    "sender_name": "Shirin Gupta",
+    "sender_email": "shirin@example.com",
+    "recipients": [
+      {
+        "name": "John Smith",
+        "email": "john.smith@northstar.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Re: Project Risk Register",
+    "body": "Hi John,\n\nI've reviewed the risk register. The main areas that need attention are resource availability and the dependency on the testing milestone. I'll discuss the details in the review.\n\nRegards,\nShirin",
+    "timestamp": "2026-09-17T15:05:00",
+    "folder": "sent",
+    "is_read": true
+  },
+  {
+    "id": "email_021",
+    "thread_id": "thread_017",
+    "sender_name": "Laura Adams",
+    "sender_email": "laura.adams@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Team Lunch - Friday",
+    "body": "Hi team,\n\nWe are planning a team lunch this Friday at 1 PM. Please let me know by tomorrow if you have any dietary requirements.\n\nLaura",
+    "timestamp": "2026-09-18T12:20:00",
+    "folder": "inbox",
+    "is_read": true
+  },
+  {
+    "id": "email_022",
+    "thread_id": "thread_018",
+    "sender_name": "Shirin Gupta",
+    "sender_email": "shirin@example.com",
+    "recipients": [
+      {
+        "name": "Sarah Williams",
+        "email": "sarah.williams@northstar.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Draft - Client Status Update",
+    "body": "Hi Sarah,\n\nPlease find below the draft status update for the client. I have included the latest progress, open risks, and upcoming milestones.\n\nBest,\nShirin",
+    "timestamp": "2026-09-19T10:15:00",
+    "folder": "drafts",
+    "is_read": true
+  },
+  {
+    "id": "email_023",
+    "thread_id": "thread_019",
+    "sender_name": "IT Support",
+    "sender_email": "it.support@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Password Expiry Reminder",
+    "body": "Your corporate password will expire in 10 days. Please update it before the expiry date to avoid interruption to your account.",
+    "timestamp": "2026-09-19T07:30:00",
+    "folder": "inbox",
+    "is_read": false
+  },
+  {
+    "id": "email_024",
+    "thread_id": "thread_020",
+    "sender_name": "Procurement Team",
+    "sender_email": "procurement@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [
+      "finance@northstar.com"
+    ],
+    "subject": "Vendor Quote Required",
+    "body": "Hi Shirin,\n\nPlease review the attached vendor comparison and confirm which quote should be selected by Wednesday.\n\nRegards,\nProcurement",
+    "timestamp": "2026-09-18T14:10:00",
+    "folder": "inbox",
+    "is_read": false
+  },
+  {
+    "id": "email_025",
+    "thread_id": "thread_021",
+    "sender_name": "James Patel",
+    "sender_email": "james.patel@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "API Integration Status",
+    "body": "Hi Shirin,\n\nThe API integration is almost complete. We are waiting for the authentication credentials from the infrastructure team before we can finish testing.\n\nJames",
+    "timestamp": "2026-09-17T13:30:00",
+    "folder": "inbox",
+    "is_read": true
+  },
+  {
+    "id": "email_026",
+    "thread_id": "thread_022",
+    "sender_name": "Shirin Gupta",
+    "sender_email": "shirin@example.com",
+    "recipients": [
+      {
+        "name": "James Patel",
+        "email": "james.patel@northstar.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Re: API Integration Status",
+    "body": "Hi James,\n\nThanks for the update. I'll check with the infrastructure team regarding the authentication credentials.\n\nRegards,\nShirin",
+    "timestamp": "2026-09-17T14:00:00",
+    "folder": "sent",
+    "is_read": true
+  },
+  {
+    "id": "email_027",
+    "thread_id": "thread_023",
+    "sender_name": "Learning Team",
+    "sender_email": "learning@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "New AI Learning Resources",
+    "body": "We have added new learning resources covering retrieval-augmented generation, embeddings, prompt engineering, and evaluation. You can access them through the internal learning portal.",
+    "timestamp": "2026-09-16T08:00:00",
+    "folder": "inbox",
+    "is_read": true
+  },
+  {
+    "id": "email_028",
+    "thread_id": "thread_024",
+    "sender_name": "Robert King",
+    "sender_email": "robert.king@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Architecture Review",
+    "body": "Hi Shirin,\n\nCan you prepare the backend architecture diagram for the architecture review on Thursday? Please include the API layer, database, and external services.\n\nRobert",
+    "timestamp": "2026-09-18T11:45:00",
+    "folder": "inbox",
+    "is_read": false
+  },
+  {
+    "id": "email_029",
+    "thread_id": "thread_025",
+    "sender_name": "Travel Desk",
+    "sender_email": "travel@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Travel Policy Update",
+    "body": "The company travel policy has been updated. Please review the new approval requirements before booking business travel.",
+    "timestamp": "2026-09-15T15:00:00",
+    "folder": "inbox",
+    "is_read": true
+  },
+  {
+    "id": "email_030",
+    "thread_id": "thread_026",
+    "sender_name": "John Smith",
+    "sender_email": "john.smith@northstar.com",
+    "recipients": [
+      {
+        "name": "Shirin Gupta",
+        "email": "shirin@example.com"
+      }
+    ],
+    "cc": [],
+    "subject": "Reminder: Proposal Due Friday",
+    "body": "Hi Shirin,\n\nJust a quick reminder that the revised project proposal is due by Friday. Please make sure the delivery timeline is included.\n\nJohn",
+    "timestamp": "2026-09-19T08:45:00",
+    "folder": "inbox",
+    "is_read": false
+  }
+]
