@@ -3,6 +3,8 @@ import type { Email, Folder } from "@/types/email";
 type EmailListProps = {
   emails: Email[];
   folder: Folder;
+  selectedId: string | null;
+  onSelect: (emailId: string) => void;
 };
 
 function formatTimestamp(iso: string): string {
@@ -21,7 +23,12 @@ function getPersonLabel(email: Email, folder: Folder): string {
   return `To: ${names.join(", ")}`;
 }
 
-export default function EmailList({ emails, folder }: EmailListProps) {
+export default function EmailList({
+  emails,
+  folder,
+  selectedId,
+  onSelect,
+}: EmailListProps) {
   if (emails.length === 0) {
     return <p className="p-6 text-sm text-zinc-500">No emails in this folder.</p>;
   }
@@ -33,7 +40,12 @@ export default function EmailList({ emails, folder }: EmailListProps) {
         return (
           <li
             key={email.id}
-            className="flex items-baseline gap-4 px-6 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-900"
+            onClick={() => onSelect(email.id)}
+            className={`flex cursor-pointer items-baseline gap-4 px-6 py-3 ${
+              email.id === selectedId
+                ? "bg-blue-50 dark:bg-blue-950/40"
+                : "hover:bg-zinc-50 dark:hover:bg-zinc-900"
+            }`}
           >
             <span
               className={`w-48 shrink-0 truncate text-sm ${
