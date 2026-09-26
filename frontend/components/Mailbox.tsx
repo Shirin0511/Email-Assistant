@@ -51,18 +51,43 @@ export default function Mailbox() {
     setFolder(next);
   }
 
-  // Store the new summary on the email so it survives clicking away and back.
-  function handleSummary(emailId: string, summary: string) {
+  // Apply a change to one email in the currently loaded list.
+  function patchEmailInState(emailId: string, changes: Partial<Email>) {
     setResult((prev) =>
       prev
         ? {
             ...prev,
             emails: prev.emails.map((e) =>
-              e.id === emailId ? { ...e, summary } : e,
+              e.id === emailId ? { ...e, ...changes } : e,
             ),
           }
         : prev,
     );
+  }
+
+  // Store the new summary on the email so it survives clicking away and back.
+  function handleSummary(emailId: string, summary: string) {
+    patchEmailInState(emailId, { summary });
+  }
+
+  function handleSelectEmail(emailId: string) {
+    setSelectedId(emailId);
+
+    const email = result?.emails.find((e) => e.id === emailId);
+    if (!email || email.is_read) return;
+
+    // Update locally first so the row stops looking unread immediately,
+    // rather than after a round trip.
+    patchEmailInState(emailId, { is_read: true });
+
+    fetch(`/api/emails/${emailId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ is_read: true }),
+    }).catch(() => {
+      // Failing to mark something read is not worth interrupting anyone over.
+      // The email simply shows as unread again after a refresh.
+    });
   }
 
   return (
@@ -79,25 +104,27 @@ export default function Mailbox() {
           </p>
         )}
 
-        {!isLoading && result && !result.error && (
-          <>
+        {/* An open email replaces the list, the way Gmail does it. */}
+        {!isLoading &&
+          result &&
+          !result.error &&
+          (selectedEmail ? (
+            // key= remounts the component per email, so the "Generating…"
+            // state cannot leak from one email to the next.
+            <EmailDetail
+              key={selectedEmail.id}
+              email={selectedEmail}
+              folder={folder}
+              onSummary={handleSummary}
+              onBack={() => setSelectedId(null)}
+            />
+          ) : (
             <EmailList
               emails={result.emails}
               folder={folder}
-              selectedId={selectedId}
-              onSelect={setSelectedId}
+              onSelect={handleSelectEmail}
             />
-            {selectedEmail && (
-              // key= remounts the component per email, so the "Generating…"
-              // state cannot leak from one email to the next.
-              <EmailDetail
-                key={selectedEmail.id}
-                email={selectedEmail}
-                onSummary={handleSummary}
-              />
-            )}
-          </>
-        )}
+          ))}
       </main>
     </div>
   );

@@ -33,3 +33,7 @@ class SummaryOut(BaseModel):
     summary: str
     email_id: str
     cached: bool
+
+
+class EmailUpdate(BaseModel):
+    is_read : bool | None = None    

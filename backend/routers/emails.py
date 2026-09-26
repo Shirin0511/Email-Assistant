@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from models import Email
-from schemas import EmailOut, Folder, SummaryOut
+from schemas import EmailOut, Folder, SummaryOut, EmailUpdate
 from services.summarizer import summarize_emails
 
 
@@ -37,4 +37,22 @@ def create_summary(email_id: str, force: bool = False, db: Session = Depends(get
        raise HTTPException(status_code= 502, detail= f"LLM Request failed: {exc}") from exc
 
     return SummaryOut(summary=summary, email_id=email_id, cached=cached)
+
+
+@router.patch("/{email_id}", response_model= EmailOut)
+def update_email(email_id:str, payload:EmailUpdate, db:Session = Depends(get_db)):
+   
+    email = db.get(Email, email_id)
+    if not email:
+        raise HTTPException(status_code=404, detail="Email not found")
+
+    updates = payload.model_dump(exclude_unset=True)
+
+    for field, value in updates.items():
+        setattr(email, field, value)
+
+    db.commit()
+    db.refresh(email)
+
+    return email    
           

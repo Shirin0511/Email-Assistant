@@ -1,14 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import type { Email, SummaryResponse } from "@/types/email";
+import { FOLDER_LABELS } from "@/lib/folders";
+import type { Email, Folder, SummaryResponse } from "@/types/email";
 
 type EmailDetailProps = {
   email: Email;
+  folder: Folder;
   onSummary: (emailId: string, summary: string) => void;
+  onBack: () => void;
 };
 
-export default function EmailDetail({ email, onSummary }: EmailDetailProps) {
+function formatFullTimestamp(iso: string): string {
+  return new Date(iso).toLocaleString(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+export default function EmailDetail({
+  email,
+  folder,
+  onSummary,
+  onBack,
+}: EmailDetailProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,14 +54,40 @@ export default function EmailDetail({ email, onSummary }: EmailDetailProps) {
     }
   }
 
-  return (
-    <article className="border-t border-zinc-200 p-6 dark:border-zinc-800">
-      <h2 className="text-lg font-semibold">{email.subject}</h2>
-      <p className="mt-1 text-sm text-zinc-500">
-        {email.sender_name} &lt;{email.sender_email}&gt;
-      </p>
+  const recipientList = email.recipients
+    .map((r) => r.name || r.email)
+    .join(", ");
 
-      <div className="mt-4 flex items-center gap-3">
+  return (
+    <article className="mx-auto max-w-3xl p-6">
+      <button
+        onClick={onBack}
+        className="mb-6 rounded-lg px-2 py-1 text-sm text-zinc-600 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900"
+      >
+        ← Back to {FOLDER_LABELS[folder]}
+      </button>
+
+      <h2 className="text-2xl font-semibold">{email.subject}</h2>
+
+      <div className="mt-4 border-b border-zinc-200 pb-4 text-sm dark:border-zinc-800">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <span className="font-medium">
+            {email.sender_name}{" "}
+            <span className="font-normal text-zinc-500">
+              &lt;{email.sender_email}&gt;
+            </span>
+          </span>
+          <span className="text-zinc-500">
+            {formatFullTimestamp(email.timestamp)}
+          </span>
+        </div>
+        <p className="mt-1 text-zinc-500">To: {recipientList}</p>
+        {email.cc.length > 0 && (
+          <p className="text-zinc-500">Cc: {email.cc.join(", ")}</p>
+        )}
+      </div>
+
+      <div className="mt-4 flex flex-wrap items-center gap-3">
         <button
           onClick={generateSummary}
           disabled={isGenerating}
@@ -59,13 +103,13 @@ export default function EmailDetail({ email, onSummary }: EmailDetailProps) {
       </div>
 
       {email.summary && (
-        <div className="mt-4 rounded-lg bg-amber-50 p-3 text-sm dark:bg-amber-950/40">
+        <div className="mt-4 rounded-lg bg-amber-50 p-4 text-sm dark:bg-amber-950/40">
           <p className="font-semibold">Summary</p>
           <p className="mt-1">{email.summary}</p>
         </div>
       )}
 
-      <p className="mt-6 whitespace-pre-wrap text-sm">{email.body}</p>
+      <p className="mt-6 whitespace-pre-wrap text-sm leading-6">{email.body}</p>
     </article>
   );
 }
