@@ -12,6 +12,40 @@ class Folder(str, Enum):
     drafts = "drafts"    
     sent = "sent"
 
+class Category(str, Enum):
+
+    action_required = "Action Required"
+    approval_needed = "Approval Needed"
+    meeting = "Meeting"
+    fyi = "FYI"
+    newsletter = "Newsletter"
+
+
+class Priority(str, Enum):
+    low= "Low"
+    medium = "Medium"
+    high = "High"    
+
+class SummaryOut(BaseModel):
+    summary: str
+    email_id: str
+    cached: bool
+
+
+class EmailUpdate(BaseModel):
+    is_read : bool | None = None    
+
+
+class ClassificationResult(BaseModel):
+    category : Category
+    priority: Priority    
+
+
+class ClassificationOut(BaseModel):
+    email_id: str
+    classification : ClassificationResult
+    cached : bool    
+
 
 class EmailOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -28,12 +62,5 @@ class EmailOut(BaseModel):
     folder: Folder
     is_read: bool
     summary : str | None = None
+    classification : ClassificationResult | None = None
 
-class SummaryOut(BaseModel):
-    summary: str
-    email_id: str
-    cached: bool
-
-
-class EmailUpdate(BaseModel):
-    is_read : bool | None = None    

@@ -5,8 +5,9 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from models import Email
-from schemas import EmailOut, Folder, SummaryOut, EmailUpdate
+from schemas import EmailOut, Folder, SummaryOut, EmailUpdate, ClassificationOut
 from services.summarizer import summarize_emails
+from services.classifier import classify_email
 
 
 router = APIRouter(prefix="/emails", tags=["emails"])
@@ -55,4 +56,34 @@ def update_email(email_id:str, payload:EmailUpdate, db:Session = Depends(get_db)
     db.refresh(email)
 
     return email    
+
+
+@router.post("/{email_id}/classify", response_model=ClassificationOut)
+def create_classification(
+    email_id: str,
+    force: bool = False,
+    db: Session = Depends(get_db),
+):
+    email = db.get(Email, email_id)
+
+    if not email:
+        raise HTTPException(status_code=404, detail="Email not found")
+
+    try:
+        result, cached = classify_email(db, email, force)
+    except OpenAIError as exc:
+        raise HTTPException(
+            status_code=502, detail=f"LLM request failed: {exc}"
+        ) from exc
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=502, detail=f"Could not parse model output: {exc}"
+        ) from exc
+
+    return ClassificationOut(
+        email_id=email_id,
+        classification=result,
+        cached=cached,
+    )
+
           

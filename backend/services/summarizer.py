@@ -1,13 +1,9 @@
-from openai import OpenAI
 from sqlalchemy.orm import Session
 
 from config import settings
 from models import Email
+from services.llm import client
 
-client = OpenAI(
-    api_key = settings.llm_api_key,
-    base_url = settings.llm_base_url
-)
 
 SYSTEM_PROMPT = (
     "You summarize emails. Reply with 1-2 short sentences capturing the main "

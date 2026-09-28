@@ -19,3 +19,5 @@ class Email(Base):
     folder: Mapped[str] = mapped_column(String, index=True)
     is_read : Mapped[bool] = mapped_column(Boolean, default=False)
     summary : Mapped[str | None] = mapped_column(Text, nullable=True, default= None)
+    classification: Mapped[dict | None] = mapped_column(JSON, nullable=True, default=None)
+    classification_hash: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
