@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import EmailDetail from "@/components/EmailDetail";
 import EmailList from "@/components/EmailList";
 import Sidebar from "@/components/Sidebar";
-import type { Email, Folder } from "@/types/email";
+import type { ClassificationResponse, Email, Folder } from "@/types/email";
 
 // The result of one fetch, tagged with the folder it was fetched for.
 type FetchResult = {
@@ -17,6 +17,12 @@ export default function Mailbox() {
   const [folder, setFolder] = useState<Folder>("inbox");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [result, setResult] = useState<FetchResult | null>(null);
+
+  // Classifications belong to threads, not emails, so they are kept separately
+  // and survive folder switches — one thread can span inbox and sent.
+  const [classifications, setClassifications] = useState<
+    Record<string, ClassificationResponse>
+  >({});
 
   useEffect(() => {
     // If the user switches folders before this request finishes, the cleanup
@@ -70,6 +76,10 @@ export default function Mailbox() {
     patchEmailInState(emailId, { summary });
   }
 
+  function handleClassify(result: ClassificationResponse) {
+    setClassifications((prev) => ({ ...prev, [result.thread_id]: result }));
+  }
+
   function handleSelectEmail(emailId: string) {
     setSelectedId(emailId);
 
@@ -115,7 +125,11 @@ export default function Mailbox() {
               key={selectedEmail.id}
               email={selectedEmail}
               folder={folder}
+              classification={
+                classifications[selectedEmail.thread_id] ?? null
+              }
               onSummary={handleSummary}
+              onClassify={handleClassify}
               onBack={() => setSelectedId(null)}
             />
           ) : (

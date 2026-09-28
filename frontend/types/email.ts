@@ -28,3 +28,21 @@ export type SummaryResponse = {
   summary: string;
   cached: boolean;
 };
+
+// Mirror the Category / Priority enums in backend/schemas.py.
+export type Category =
+  | "Action Required"
+  | "Approval Needed"
+  | "Meeting"
+  | "FYI"
+  | "Newsletter";
+
+export type Priority = "High" | "Medium" | "Low";
+
+// Mirrors ClassificationOut. Keyed by thread, not by email.
+export type ClassificationResponse = {
+  thread_id: string;
+  category: Category;
+  priority: Priority;
+  cached: boolean;
+};
