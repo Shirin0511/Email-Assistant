@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from routers import emails
+from routers import emails, threads
 
 app= FastAPI(title="Email Assistant")
 app.include_router(emails.router)
