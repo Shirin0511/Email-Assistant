@@ -1,28 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { CATEGORY_STYLE, PRIORITY_STYLES } from "@/lib/classification";
 import { FOLDER_LABELS } from "@/lib/folders";
 import type {
+  Classification,
   ClassificationResponse,
   Email,
   Folder,
-  Priority,
   SummaryResponse,
 } from "@/types/email";
 
 type EmailDetailProps = {
   email: Email;
   folder: Folder;
-  classification: ClassificationResponse | null;
   onSummary: (emailId: string, summary: string) => void;
-  onClassify: (result: ClassificationResponse) => void;
+  onClassify: (emailId: string, classification: Classification) => void;
   onBack: () => void;
-};
-
-const PRIORITY_STYLES: Record<Priority, string> = {
-  High: "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200",
-  Medium: "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200",
-  Low: "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300",
 };
 
 function formatFullTimestamp(iso: string): string {
@@ -44,7 +38,6 @@ async function readError(res: Response): Promise<string> {
 export default function EmailDetail({
   email,
   folder,
-  classification,
   onSummary,
   onClassify,
   onBack,
@@ -67,27 +60,26 @@ export default function EmailDetail({
       const data: SummaryResponse = await res.json();
       onSummary(email.id, data.summary);
     } catch (err) {
-      setSummaryError(err instanceof Error ? err.message : "Something went wrong");
+      setSummaryError(
+        err instanceof Error ? err.message : "Something went wrong",
+      );
     } finally {
       // Runs even when the request failed, so the button never sticks.
       setIsSummarizing(false);
     }
   }
 
-  async function classifyThread() {
+  async function classifyEmail() {
     setIsClassifying(true);
     setClassifyError(null);
     try {
-      // Classification belongs to the whole conversation, so this uses
-      // thread_id rather than the id of the email being read.
-      const force = classification ? "?force=true" : "";
-      const res = await fetch(
-        `/api/threads/${email.thread_id}/classify${force}`,
-        { method: "POST" },
-      );
+      const force = email.classification ? "?force=true" : "";
+      const res = await fetch(`/api/emails/${email.id}/classify${force}`, {
+        method: "POST",
+      });
       if (!res.ok) throw new Error(await readError(res));
       const data: ClassificationResponse = await res.json();
-      onClassify(data);
+      onClassify(email.id, data.classification);
     } catch (err) {
       setClassifyError(
         err instanceof Error ? err.message : "Something went wrong",
@@ -112,17 +104,19 @@ export default function EmailDetail({
 
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <h2 className="text-2xl font-semibold">{email.subject}</h2>
-        {classification && (
+        {email.classification && (
           <>
-            <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-950 dark:text-blue-200">
-              {classification.category}
+            <span
+              className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${CATEGORY_STYLE}`}
+            >
+              {email.classification.category}
             </span>
             <span
               className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                PRIORITY_STYLES[classification.priority]
+                PRIORITY_STYLES[email.classification.priority]
               }`}
             >
-              {classification.priority}
+              {email.classification.priority}
             </span>
           </>
         )}
@@ -160,15 +154,15 @@ export default function EmailDetail({
         </button>
 
         <button
-          onClick={classifyThread}
+          onClick={classifyEmail}
           disabled={isClassifying}
           className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm font-medium transition-colors hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-900"
         >
           {isClassifying
             ? "Classifying…"
-            : classification
-              ? "Reclassify thread"
-              : "Classify thread"}
+            : email.classification
+              ? "Reclassify"
+              : "Classify"}
         </button>
 
         {(summaryError || classifyError) && (

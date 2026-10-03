@@ -33,7 +33,7 @@ def summarize_emails(db: Session, email: Email, force: bool = False) -> tuple[st
                 "role": "user", "content":user_prompt
             }
         ],
-        max_tokens= 150,
+        max_tokens= 500,
     )
 
     summary = (response.choices[0].message.content or "").strip()

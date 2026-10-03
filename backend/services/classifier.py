@@ -10,16 +10,27 @@ from services.llm import client
 
 SYSTEM_PROMPT = (
     "You classify work emails. Reply with JSON only and nothing else, "
-    'in exactly this form: {"category": "...", "priority": "..."}. '
-    "category must be one of: Action Required, Approval Needed, Meeting, "
-    "FYI, Newsletter. "
-    "priority must be one of: High, Medium, Low."
+    'in exactly this form: {"category": "...", "priority": "..."}.\n\n'
+    "category must be exactly one of:\n"
+    "- Action Required: the recipient must do or send something\n"
+    "- Approval Needed: the recipient must approve, review or sign off\n"
+    "- Meeting: about scheduling, confirming or attending a meeting\n"
+    "- FYI: informational, no action needed from the recipient\n"
+    "- Newsletter: bulk or subscription content\n\n"
+    "priority must be exactly one of:\n"
+    "- High: the email names a specific deadline, date or time, "
+    "or says the recipient is blocking someone else\n"
+    "- Medium: the recipient must act, but no specific deadline is given\n"
+    "- Low: no action is needed from the recipient\n\n"
+
+    "Apply these rules literally. Do not infer urgency from tone or politeness."
 )
+
 
 
 def _content_hash(email: Email)-> str:
     payload = f"{email.subject}\n{email.body}"
-    return hashlib.sha256(payload.encode("utf-8")).hexadigest()
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 
@@ -62,8 +73,16 @@ def classify_email(db: Session, email:Email, force:bool) -> tuple[Classification
             {"role":"system", "content": SYSTEM_PROMPT},
             {"role":"user", "content":user_prompt}
         ],
-        max_tokens=100,
+        max_tokens=500,
+        temperature = 0,
     )
+
+    choice = response.choices[0]
+
+    if choice.finish_reason == "length":
+        raise ValueError(
+            "Model Output was cut off before it finished - raise max_tokens"
+        )
 
     raw = (response.choices[0].message.content or "").strip()
     if not raw:

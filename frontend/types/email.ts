@@ -20,6 +20,7 @@ export type Email = {
   folder: Folder;
   is_read: boolean;
   summary: string | null;
+  classification: Classification | null;
 };
 
 // Mirrors SummaryOut in backend/schemas.py.
@@ -39,10 +40,15 @@ export type Category =
 
 export type Priority = "High" | "Medium" | "Low";
 
-// Mirrors ClassificationOut. Keyed by thread, not by email.
-export type ClassificationResponse = {
-  thread_id: string;
+// Mirrors ClassificationResult — the JSON stored in the classification column.
+export type Classification = {
   category: Category;
   priority: Priority;
+};
+
+// Mirrors ClassificationOut.
+export type ClassificationResponse = {
+  email_id: string;
+  classification: Classification;
   cached: boolean;
 };
