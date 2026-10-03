@@ -21,6 +21,7 @@ export type Email = {
   is_read: boolean;
   summary: string | null;
   classification: Classification | null;
+  actions: ActionItem[] | null;
 };
 
 // Mirrors SummaryOut in backend/schemas.py.
@@ -50,5 +51,21 @@ export type Classification = {
 export type ClassificationResponse = {
   email_id: string;
   classification: Classification;
+  cached: boolean;
+};
+
+// Mirrors ActionItem in backend/schemas.py. deadline_text is what the email
+// literally said ("by Friday"); deadline_date is the backend's resolution of
+// it, and is null when the phrase could not be read.
+export type ActionItem = {
+  action: string;
+  deadline_text: string | null;
+  deadline_date: string | null; // ISO date, e.g. "2026-09-25"
+};
+
+// Mirrors ActionsOut.
+export type ActionsResponse = {
+  email_id: string;
+  actions: ActionItem[];
   cached: boolean;
 };

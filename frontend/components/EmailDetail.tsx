@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import ActionList from "@/components/ActionList";
 import { CATEGORY_STYLE, PRIORITY_STYLES } from "@/lib/classification";
 import { FOLDER_LABELS } from "@/lib/folders";
 import type {
+  ActionItem,
+  ActionsResponse,
   Classification,
   ClassificationResponse,
   Email,
@@ -16,6 +19,7 @@ type EmailDetailProps = {
   folder: Folder;
   onSummary: (emailId: string, summary: string) => void;
   onClassify: (emailId: string, classification: Classification) => void;
+  onActions: (emailId: string, actions: ActionItem[]) => void;
   onBack: () => void;
 };
 
@@ -40,12 +44,15 @@ export default function EmailDetail({
   folder,
   onSummary,
   onClassify,
+  onActions,
   onBack,
 }: EmailDetailProps) {
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summaryError, setSummaryError] = useState<string | null>(null);
   const [isClassifying, setIsClassifying] = useState(false);
   const [classifyError, setClassifyError] = useState<string | null>(null);
+  const [isExtracting, setIsExtracting] = useState(false);
+  const [actionsError, setActionsError] = useState<string | null>(null);
 
   async function generateSummary() {
     setIsSummarizing(true);
@@ -89,9 +96,32 @@ export default function EmailDetail({
     }
   }
 
+  async function getActions() {
+    setIsExtracting(true);
+    setActionsError(null);
+    try {
+      const force = email.actions ? "?force=true" : "";
+      const res = await fetch(`/api/emails/${email.id}/actions${force}`, {
+        method: "POST",
+      });
+      if (!res.ok) throw new Error(await readError(res));
+      const data: ActionsResponse = await res.json();
+      onActions(email.id, data.actions);
+    } catch (err) {
+      setActionsError(
+        err instanceof Error ? err.message : "Something went wrong",
+      );
+    } finally {
+      setIsExtracting(false);
+    }
+  }
+
   const recipientList = email.recipients
     .map((r) => r.name || r.email)
     .join(", ");
+
+  // Extracting actions only makes sense once an email is known to need some.
+  const needsAction = email.classification?.category === "Action Required";
 
   return (
     <article className="mx-auto max-w-3xl p-6">
@@ -165,12 +195,28 @@ export default function EmailDetail({
               : "Classify"}
         </button>
 
-        {(summaryError || classifyError) && (
+        {needsAction && (
+          <button
+            onClick={getActions}
+            disabled={isExtracting}
+            className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm font-medium transition-colors hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-900"
+          >
+            {isExtracting
+              ? "Extracting…"
+              : email.actions
+                ? "Refresh actions"
+                : "Get actions"}
+          </button>
+        )}
+
+        {(summaryError || classifyError || actionsError) && (
           <span className="text-sm text-red-600">
-            {summaryError ?? classifyError}
+            {summaryError ?? classifyError ?? actionsError}
           </span>
         )}
       </div>
+
+      {email.actions && <ActionList actions={email.actions} />}
 
       {email.summary && (
         <div className="mt-4 rounded-lg bg-amber-50 p-4 text-sm dark:bg-amber-950/40">

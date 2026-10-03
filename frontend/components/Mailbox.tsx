@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import EmailDetail from "@/components/EmailDetail";
 import EmailList from "@/components/EmailList";
 import Sidebar from "@/components/Sidebar";
-import type { Classification, Email, Folder } from "@/types/email";
+import type { ActionItem, Classification, Email, Folder } from "@/types/email";
 
 // The result of one fetch, tagged with the folder it was fetched for.
 type FetchResult = {
@@ -74,6 +74,10 @@ export default function Mailbox() {
     patchEmailInState(emailId, { classification });
   }
 
+  function handleActions(emailId: string, actions: ActionItem[]) {
+    patchEmailInState(emailId, { actions });
+  }
+
   function handleSelectEmail(emailId: string) {
     setSelectedId(emailId);
 
@@ -121,6 +125,7 @@ export default function Mailbox() {
               folder={folder}
               onSummary={handleSummary}
               onClassify={handleClassify}
+              onActions={handleActions}
               onBack={() => setSelectedId(null)}
             />
           ) : (
