@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from pydantic import BaseModel, ConfigDict
 from enum import Enum
 
@@ -47,6 +47,29 @@ class ClassificationOut(BaseModel):
     cached : bool    
 
 
+#this is what the LLM extracts from the email text
+class ExtractedAction(BaseModel):
+    action: str
+    deadline_text : str | None = None
+
+
+#since an email can have more than one actionable items mentioned
+class ExtractedActions(BaseModel):
+    actions: list[ExtractedAction]
+
+
+#what we are storing and returing
+class ActionItem(BaseModel):
+    action: str
+    deadline_date : date | None = None
+
+
+class ActionsOut(BaseModel):
+    email_id : str
+    actions : list[ActionItem]
+    cached : bool    
+
+
 class EmailOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -63,4 +86,7 @@ class EmailOut(BaseModel):
     is_read: bool
     summary : str | None = None
     classification : ClassificationResult | None = None
+    action: list[ActionItem] | None = None
+
+
 

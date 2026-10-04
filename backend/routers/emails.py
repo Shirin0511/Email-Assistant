@@ -9,6 +9,10 @@ from schemas import EmailOut, Folder, SummaryOut, EmailUpdate, ClassificationOut
 from services.summarizer import summarize_emails
 from services.classifier import classify_email
 
+from schemas import ActionsOut, ClassificationOut, EmailOut, EmailUpdate, Folder, SummaryOut
+from services.actions import extract_actions
+
+
 
 router = APIRouter(prefix="/emails", tags=["emails"])
 
@@ -87,3 +91,24 @@ def create_classification(
     )
 
           
+
+@router.post("/{email_id}/actions", response_model = ActionsOut)
+def create_actions(email_id: str, force: bool = False, db: Session = Depends(get_db)):
+
+    email = get_db(Email, email_id)
+
+    if not email:
+        raise HTTPException(status_code = 404, detail = "Email not found")
+
+    try:
+        actions, cached = extract_actions(db, email, force)
+    except OpenAIError as exc:
+        raise HTTPException(
+            status_code=502, detail=f"LLM request failed: {exc}"
+        ) from exc
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=502, detail=f"Could not parse model output: {exc}"
+        ) from exc
+
+    return ActionsOut(email_id=email_id, actions=actions, cached=cached)    
