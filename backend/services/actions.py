@@ -63,7 +63,7 @@ def extract_actions(db:Session, email:Email, force: bool = False) -> tuple[list[
 
     user_prompt = f"Subject :{email.subject} \n\n Body: {email.body}"
 
-    response = client.chat.completion.create(
+    response = client.chat.completions.create(
         model= settings.llm_model,
         messages= [
             {"role":"system", "content":SYSTEM_PROMPT},

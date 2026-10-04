@@ -95,7 +95,7 @@ def create_classification(
 @router.post("/{email_id}/actions", response_model = ActionsOut)
 def create_actions(email_id: str, force: bool = False, db: Session = Depends(get_db)):
 
-    email = get_db(Email, email_id)
+    email = db.get(Email, email_id)
 
     if not email:
         raise HTTPException(status_code = 404, detail = "Email not found")
