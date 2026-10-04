@@ -3,20 +3,20 @@
 import { useState } from "react";
 import ActionList from "@/components/ActionList";
 import { CATEGORY_STYLE, PRIORITY_STYLES } from "@/lib/classification";
-import { FOLDER_LABELS } from "@/lib/folders";
 import type {
   ActionItem,
   ActionsResponse,
   Classification,
   ClassificationResponse,
   Email,
-  Folder,
   SummaryResponse,
 } from "@/types/email";
 
 type EmailDetailProps = {
   email: Email;
-  folder: Folder;
+  // Where the back button returns to: a folder name, or "results" when the
+  // email was opened from a search.
+  backLabel: string;
   onSummary: (emailId: string, summary: string) => void;
   onClassify: (emailId: string, classification: Classification) => void;
   onActions: (emailId: string, actions: ActionItem[]) => void;
@@ -41,7 +41,7 @@ async function readError(res: Response): Promise<string> {
 
 export default function EmailDetail({
   email,
-  folder,
+  backLabel,
   onSummary,
   onClassify,
   onActions,
@@ -129,7 +129,7 @@ export default function EmailDetail({
         onClick={onBack}
         className="mb-6 rounded-lg px-2 py-1 text-sm text-zinc-600 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900"
       >
-        ← Back to {FOLDER_LABELS[folder]}
+        ← Back to {backLabel}
       </button>
 
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">

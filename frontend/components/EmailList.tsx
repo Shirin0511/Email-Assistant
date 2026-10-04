@@ -1,10 +1,10 @@
 import { PRIORITY_STYLES } from "@/lib/classification";
-import type { Email, Folder } from "@/types/email";
+import type { Email } from "@/types/email";
 
 type EmailListProps = {
   emails: Email[];
-  folder: Folder;
   onSelect: (emailId: string) => void;
+  emptyMessage?: string;
 };
 
 function formatTimestamp(iso: string): string {
@@ -17,19 +17,20 @@ function formatTimestamp(iso: string): string {
 }
 
 // Inbox shows who sent the mail; drafts and sent items show who it is going to.
-function getPersonLabel(email: Email, folder: Folder): string {
-  if (folder === "inbox") return email.sender_name;
+// Read from the email itself, not from a prop: search results mix folders.
+function getPersonLabel(email: Email): string {
+  if (email.folder === "inbox") return email.sender_name;
   const names = email.recipients.map((r) => r.name || r.email);
   return `To: ${names.join(", ")}`;
 }
 
 export default function EmailList({
   emails,
-  folder,
   onSelect,
+  emptyMessage = "No emails in this folder.",
 }: EmailListProps) {
   if (emails.length === 0) {
-    return <p className="p-6 text-sm text-zinc-500">No emails in this folder.</p>;
+    return <p className="p-6 text-sm text-zinc-500">{emptyMessage}</p>;
   }
 
   return (
@@ -47,11 +48,11 @@ export default function EmailList({
                 isUnread ? "font-semibold" : ""
               }`}
             >
-              {getPersonLabel(email, folder)}
+              {getPersonLabel(email)}
             </span>
 
             <span className="min-w-0 flex-1 truncate text-sm">
-              {folder === "drafts" && (
+              {email.folder === "drafts" && (
                 <span className="mr-2 font-semibold text-red-600">[Draft]</span>
               )}
               <span className={isUnread ? "font-semibold" : ""}>

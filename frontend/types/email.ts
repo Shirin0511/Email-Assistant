@@ -69,3 +69,15 @@ export type ActionsResponse = {
   actions: ActionItem[];
   cached: boolean;
 };
+
+// Mirrors SearchHit — an email plus its cosine similarity to the query.
+export type SearchHit = {
+  email: Email;
+  score: number;
+};
+
+// Mirrors SearchOut.
+export type SearchResponse = {
+  query: string;
+  hits: SearchHit[];
+};
