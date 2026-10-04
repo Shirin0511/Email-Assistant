@@ -50,6 +50,28 @@ def _strip_noise(text: str) -> str:
     return text
 
 
+# Words left dangling once a time is removed: "today before", "friday at".
+_TRAILING_NOISE = re.compile(r"\s+(by|before|at|on|due|the)$")
+
+# Clock times: "6 PM", "6:30pm", "17:00", "noon". We only care about the day,
+# so these are removed and whatever day word remains is resolved.
+# Requires am/pm or a colon, so "5 October" is never mistaken for a time.
+_TIME = re.compile(
+    r"\b(?:\d{1,2}(?::\d{2})?\s*(?:am|pm)|\d{1,2}:\d{2}"
+    r"|noon|midday|midnight|lunchtime)\b"
+)
+
+
+def _strip_time(text: str) -> str:
+    text = re.sub(r"\s+", " ", _TIME.sub(" ", text)).strip()
+    previous = None
+    while previous != text:
+        previous = text
+        text = _TRAILING_NOISE.sub("", text).strip()
+    return text
+
+
+
 def _next_weekday(
     anchor: date,
     target: int,
@@ -78,6 +100,13 @@ def resolve_deadline(text: str | None, sent_on: date) -> date | None:
         return None
 
     t = _strip_noise(text.strip().lower().rstrip(".,!"))
+
+    # "before 6 PM today" -> "today". A bare time with no day ("by 5pm")
+    # means the day the email was sent.
+    without_time = _strip_noise(_strip_time(t))
+    if not without_time:
+        return sent_on
+    t = without_time
 
     if t in SAME_DAY:
         return sent_on
