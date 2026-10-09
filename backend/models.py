@@ -23,3 +23,5 @@ class Email(Base):
     classification_hash: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
     actions : Mapped[dict | None] = mapped_column(JSON,nullable=True, default=None)
     actions_hash : Mapped[str | None] = mapped_column(String, nullable=True, default=None)
+    embeddings: Mapped[list | None] = mapped_column(JSON, nullable=True, default=None)
+    embeddings_hash: Mapped[list | None] = mapped_column(JSON, nullable=True, default= None)
