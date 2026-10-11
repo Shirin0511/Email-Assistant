@@ -12,9 +12,27 @@ from services.classifier import classify_email
 from schemas import ActionsOut, ClassificationOut, EmailOut, EmailUpdate, Folder, SummaryOut
 from services.actions import extract_actions
 
+from schemas import SearchHit, SearchOut
+from services import vector_store
+
+
 
 
 router = APIRouter(prefix="/emails", tags=["emails"])
+
+
+@router.get("/search", response_model = SearchOut)
+def search_emails(q:str, limit: int = 10, db = Depends(get_db)):
+
+    if not q.strip():
+        return SearchOut(query= q, hits=[])
+
+    results = vector_store.search(db, q, limit)
+
+    return SearchOut(
+        query=q,
+        hits= [SearchHit(email=email, score=score) for email, score in results]
+    )
 
 @router.get("", response_model= list[EmailOut])
 def list_emails(folder: Folder, db: Session = Depends(get_db)):

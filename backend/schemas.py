@@ -89,4 +89,13 @@ class EmailOut(BaseModel):
     action: list[ActionItem] | None = None
 
 
+class SearchHit(BaseModel):
+    email : EmailOut
+    score : float
+
+
+class SearchOut(BaseModel):
+    query : str
+    hits : list[SearchHit]    
+
 
