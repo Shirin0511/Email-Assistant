@@ -16,6 +16,14 @@ from models import Email
 from services.embeddings import MODEL_NAME, embed_documents, embed_query, embedding_text
 
 
+# Tuned by measuring real queries against this mailbox with
+# BAAI/bge-small-en-v1.5. These numbers are measured, not universal --
+# re-measure if you change the model or the corpus grows substantially.
+MIN_SCORE = 0.65       # below this, nothing has ever been relevant
+RELATIVE_BAND = 0.15   # keep only what is close to the best hit
+
+
+
 STORE_PATH = Path(__file__).resolve().parent.parent / "chroma_store"
 
 
@@ -75,7 +83,24 @@ def sync(db: Session) -> dict:
         "total":collection.count(),
     }    
 
+def _keep_relevant(hits:list[tuple[Email, float]]) -> list[tuple[Email, float]]:
 
+    """Trim a ranked list down to the results that are actually relevant.
+
+    Two rules, because one is not enough:
+      - an absolute floor, which discards queries that have no good answer
+      - a band relative to the best hit, which discards the tail when one
+        result clearly wins
+    """
+
+    strong = [(email, score) for email,score in hits if score>=MIN_SCORE]
+
+    if not strong:
+        return []
+
+    top_score = strong[0][1]
+
+    return [(email, score) for email, score in strong if score >= top_score - RELATIVE_BAND]
 
 def search(db:Session, query:str, limit: int =10) -> list[tuple[Email, float]]:
 
@@ -98,5 +123,5 @@ def search(db:Session, query:str, limit: int =10) -> list[tuple[Email, float]]:
         if email is not None:
             hits.append((email, 1.0- float(distance)))
 
-    return hits        
+    return _keep_relevant(hits)        
 
