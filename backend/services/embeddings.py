@@ -21,7 +21,7 @@ def _normalize(vectors: np.ndarray) -> np.ndarray:
 
 
 def embed_documents(text:list[str]) -> list[list[float]]:
-    vectors= np.array(list(_model.embed(text)), dtype="flaot32")
+    vectors= np.array(list(_model.embed(text)), dtype="float32")
     return _normalize(vectors).tolist()
 
 

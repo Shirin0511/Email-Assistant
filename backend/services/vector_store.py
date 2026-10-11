@@ -87,11 +87,11 @@ def search(db:Session, query:str, limit: int =10) -> list[tuple[Email, float]]:
         return []
 
     result = collection.query(
-        query_embedding = embed_query(query),
+        query_embeddings = embed_query(query),
         n_results= limit,
     )
 
-    hits = list[tuple[Email, float]] = []
+    hits : list[tuple[Email, float]] = []
 
     for email_id, distance in zip(result["ids"][0], result["distances"][0]):
         email = db.get(Email, email_id)
