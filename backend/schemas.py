@@ -1,6 +1,7 @@
 from datetime import datetime, date
 from pydantic import BaseModel, ConfigDict
 from enum import Enum
+from typing import Literal
 
 class Recipient(BaseModel):
     name: str
@@ -97,5 +98,23 @@ class SearchHit(BaseModel):
 class SearchOut(BaseModel):
     query : str
     hits : list[SearchHit]    
+
+
+class ChatMessage(BaseModel):
+    role: Literal["user", "assistant"]
+    content : str
+
+
+class ChatRequest(BaseModel):
+    question: str
+    history : list[ChatMessage] = []
+
+
+class Citation(BaseModel):
+    marker : int 
+    email_id : str
+    subject : str
+    sender_name : str
+    timestamp : datetime
 
 
