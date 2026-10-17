@@ -118,3 +118,18 @@ class Citation(BaseModel):
     timestamp : datetime
 
 
+class ChatResponse(BaseModel):
+    answer : str
+    citations: list[Citation]
+    resolved_query : str
+
+
+class GeneratedAnswer(BaseModel):
+    answer : str
+    sources : list[int] = []
+
+
+
+
+
+
