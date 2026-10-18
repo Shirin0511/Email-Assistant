@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from database import SessionLocal
-from routers import emails
+from routers import emails, chat
 from services import vector_store
 
 
@@ -22,4 +22,5 @@ async def lifespan(app: FastAPI):
 
 app= FastAPI(title="Email Assistant", lifespan=lifespan)
 app.include_router(emails.router)
+app.include_router(chat.router)
 
