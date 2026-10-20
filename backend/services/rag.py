@@ -137,7 +137,7 @@ def answer_question(db: Session, question:str, history:list)-> dict:
     #    an LLM given nothing to work from will invent something.
     if not hits:
         return {
-            "answer": "NO_EVIDENCE_ANSWER",
+            "answer": NO_EVIDENCE_ANSWER,
             "citations" : [],
             "resolved_query": resolved
         }

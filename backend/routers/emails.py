@@ -130,3 +130,13 @@ def create_actions(email_id: str, force: bool = False, db: Session = Depends(get
         ) from exc
 
     return ActionsOut(email_id=email_id, actions=actions, cached=cached)    
+
+
+@router.get("/{email_id}", response_model = EmailOut)
+def get_email(email_id: str, db:Session = Depends(get_db)):
+    email = db.get(Email, email_id)
+
+    if not email:
+        raise HTTPException(status_code=404, details="Email Not Found")
+
+    return email
