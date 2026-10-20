@@ -81,3 +81,31 @@ export type SearchResponse = {
   query: string;
   hits: SearchHit[];
 };
+
+export type ChatRole = "user" | "assistant";
+
+export type ChatMessage = {
+  role: ChatRole;
+  content: string;
+};
+
+// Mirrors Citation in backend/schemas.py.
+export type Citation = {
+  marker: number;
+  email_id: string;
+  subject: string;
+  sender_name: string;
+  timestamp: string;
+};
+
+// Mirrors ChatResponse.
+export type ChatResponse = {
+  answer: string;
+  citations: Citation[];
+  resolved_query: string;
+};
+
+// One exchange as the panel renders it.
+export type ChatTurn = ChatMessage & {
+  citations?: Citation[];
+};

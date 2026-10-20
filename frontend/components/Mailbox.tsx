@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import EmailDetail from "@/components/EmailDetail";
 import EmailList from "@/components/EmailList";
-import SearchPanel from "@/components/SearchPanel";
+import ChatPanel from "@/components/ChatPanel";
 import Sidebar from "@/components/Sidebar";
 import { FOLDER_LABELS } from "@/lib/folders";
 import type { ActionItem, Classification, Email, Folder } from "@/types/email";
@@ -114,10 +114,25 @@ export default function Mailbox() {
     if (email) markReadIfNeeded(email);
   }
 
-  function handleOpenFromSearch(email: Email) {
-    setSelectedId(email.id);
-    setSearchEmail(email);
-    markReadIfNeeded(email);
+  // Citations carry only an id, and the email may live in a folder that is
+  // not currently loaded, so it is fetched when it is not already on screen.
+  async function handleOpenById(emailId: string) {
+    const loaded = result?.emails.find((e) => e.id === emailId);
+    if (loaded) {
+      handleSelectEmail(emailId);
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/emails/${emailId}`);
+      if (!res.ok) return;
+      const email: Email = await res.json();
+      setSelectedId(email.id);
+      setSearchEmail(email);
+      markReadIfNeeded(email);
+    } catch {
+      // A citation that will not open is not worth an error dialog.
+    }
   }
 
   function handleBack() {
@@ -160,7 +175,7 @@ export default function Mailbox() {
         )}
       </main>
 
-      <SearchPanel onOpenEmail={handleOpenFromSearch} />
+      <ChatPanel onOpenEmail={handleOpenById} />
     </div>
   );
 }
