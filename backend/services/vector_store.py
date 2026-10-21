@@ -95,6 +95,8 @@ def _keep_relevant(hits:list[tuple[Email, float]]) -> list[tuple[Email, float]]:
 
     strong = [(email, score) for email,score in hits if score>=MIN_SCORE]
 
+    print("Strong Matching List: ",strong)
+
     if not strong:
         return []
 
@@ -102,9 +104,9 @@ def _keep_relevant(hits:list[tuple[Email, float]]) -> list[tuple[Email, float]]:
 
     return [(email, score) for email, score in strong if score >= top_score - RELATIVE_BAND]
 
-def search(db:Session, query:str, limit: int =10) -> list[tuple[Email, float]]:
+def retrieve_candidates(db:Session, query:str, limit: int =10) -> list[tuple[Email, float]]:
 
-    """Return (email, similarity) pairs, most relevant first."""
+    """Return (email, similarity) pairs,with no relevance filtering applied"""
 
     collection = _collection()
 
@@ -116,6 +118,9 @@ def search(db:Session, query:str, limit: int =10) -> list[tuple[Email, float]]:
         n_results= limit,
     )
 
+
+
+
     hits : list[tuple[Email, float]] = []
 
     for email_id, distance in zip(result["ids"][0], result["distances"][0]):
@@ -123,5 +128,17 @@ def search(db:Session, query:str, limit: int =10) -> list[tuple[Email, float]]:
         if email is not None:
             hits.append((email, 1.0- float(distance)))
 
-    return _keep_relevant(hits)        
+
+    print("Hits after embedding the query are:")         
+
+    for e,s in hits:
+        print(f"   {s:.3f}  {e.id}  {e.subject}")
+
+    return hits
+
+def search(db:Session, query:str, limit: int = 10) ->   list[tuple[Email, float]]:
+
+    """Return (email, similarity) pairs, most relevant first, filtered."""
+    
+    return _keep_relevant(retrieve_candidates(db, query, limit))        
 

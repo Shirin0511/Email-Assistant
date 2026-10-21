@@ -126,12 +126,19 @@ def answer_question(db: Session, question:str, history:list)-> dict:
     # 1. Resolve follow-ups against the conversation.
     resolved = resolve_question(question, history)
 
+    print("Resolved Question is: ",resolved)
+
     # 2. Retrieve. search() already applies the relevance threshold, so an
     #    empty list means nothing cleared the bar.
     #    >>> Reranking goes here later: retrieve a wider pool, rerank it,
     #        then threshold on the reranker's scores instead.
 
     hits = vector_store.search(db, resolved, MAX_CONTEXT_EMAILS)
+
+    if hits:
+        print("The hits are:")
+        for e,s in hits:
+            print(f"{s:.3f}  {e.id}  {e.subject}")
 
     # 3. No evidence means no answer. Return without calling the model --
     #    an LLM given nothing to work from will invent something.
