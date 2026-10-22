@@ -129,11 +129,6 @@ def retrieve_candidates(db:Session, query:str, limit: int =10) -> list[tuple[Ema
             hits.append((email, 1.0- float(distance)))
 
 
-    print("Hits after embedding the query are:")         
-
-    for e,s in hits:
-        print(f"   {s:.3f}  {e.id}  {e.subject}")
-
     return hits
 
 def search(db:Session, query:str, limit: int = 10) ->   list[tuple[Email, float]]:
