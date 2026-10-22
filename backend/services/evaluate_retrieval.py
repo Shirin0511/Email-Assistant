@@ -66,20 +66,20 @@ def evaluate(db, verbose=False):
                     f" missing={missing}"
                 )
 
-                # Group D is a hybrid-search problem, not a threshold one.
-                if group in EXCLUDE_FROM_TUNING:
-                    continue
+            # Group D is a hybrid-search problem, not a threshold one.
+            if group in EXCLUDE_FROM_TUNING:
+                continue
 
-                if recall is not None:
-                    recalls.append(recall)
-                    completes.append(1.0 if complete else 0.0)
-                    per_group.setdefault(group,[]).append(recall)
+            if recall is not None:
+                recalls.append(recall)
+                completes.append(1.0 if complete else 0.0)
+                per_group.setdefault(group,[]).append(recall)
 
-                if precision is not None:
-                    precisions.append(precision)
+            if precision is not None:
+                precisions.append(precision)
 
-                if clean is not None:
-                    cleans.append(1.0 if clean else 0.0)
+            if clean is not None:
+                cleans.append(1.0 if clean else 0.0)
 
         def mean(xs):
             return sum(xs) / len(xs) if xs else 0.0
