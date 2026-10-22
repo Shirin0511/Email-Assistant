@@ -114,10 +114,8 @@ def print_summary(summary):
     print("-" * 92)
 
     for row in summary:
-        band = "none" if row["band"] is None else f"{row['band']:.2f}"
         groups = "  ".join(f"{g}:{v:.2f}" for g, v in row["groups"].items())
         print(
-            f"{row['min_score']:5.2f} {band:>5} | "
             f"{row['precision']:5.3f} {row['recall']:5.3f} {row['f1']:5.3f} | "
             f"{row['complete']:8.3f} {row['no_answer_clean']:8.3f} | {groups}"
         )
@@ -127,9 +125,8 @@ def print_summary(summary):
     print()
     if safe:
         best = max(safe, key=lambda r: r["f1"])
-        band = "none" if best["band"] is None else f"{best['band']:.2f}"
         print("Best F1 among settings with no false positives on E:")
-        print(f"   MIN_SCORE={best['min_score']:.2f}  RELATIVE_BAND={band}"
+        print(f"   MIN_SCORE={best['min_score']:.2f}"
               f"  (P={best['precision']:.3f} R={best['recall']:.3f} F1={best['f1']:.3f})")
     else:
         print("No setting kept every no-answer query clean.")
